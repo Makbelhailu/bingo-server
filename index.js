@@ -10,12 +10,12 @@ const gameRouter = require("./routes/game");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: ["*"] }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParse());
 
-app.get("/test", (req, res) => {
+app.get("/", (req, res) => {
   res.send("hi, the server is working");
 });
 
