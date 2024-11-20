@@ -15,13 +15,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParse());
 
-app.get("/", (req, res) => {
-  res.send("hi, the server is working");
-});
-
 app.use("/user", userRouter);
 app.use("/cartela", cartelaRouter);
 app.use("/game", gameRouter);
+app.get("/", (req, res) => {
+  res.send("hi, the server is working");
+});
 
 const uri = process.env.MONGO_URI;
 mongoose
