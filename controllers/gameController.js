@@ -16,10 +16,17 @@ const getTodayGame = async (req, res) => {
 
     const userId = user._id;
 
-    const games = await Game.find({
+    const totalPlay = await Game.countDocuments({
       userId,
       createdAt: { $gte: start, $lt: end },
     });
+
+    const games = await Game.find({
+      userId,
+      createdAt: { $gte: start, $lt: end },
+    })
+      .limit(20)
+      .sort({ createdAt: -1 });
 
     if (games.length > 0) {
       totalEarn = games.reduce((a, b) => {
@@ -34,6 +41,7 @@ const getTodayGame = async (req, res) => {
       data: {
         games,
         totalEarn,
+        totalPlay,
         credit,
       },
       message: "Game data fetched Successfully",
@@ -68,7 +76,7 @@ const addGame = async (req, res) => {
         .status(403)
         .json({ status: false, message: "Can't add Game data" });
 
-    user.limit -= houseWin;
+    user.limit -= totalWin;
     await user.save();
 
     res
