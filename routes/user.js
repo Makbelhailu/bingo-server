@@ -5,8 +5,10 @@ const {
   addUser,
   updateCut,
   updateStatus,
+  getUserById,
 } = require("../controllers/userController");
 
+router.get("/:id", getUserById);
 router.post("/register", addUser);
 router.post("/login", getUser);
 router.post("/logout", logout);

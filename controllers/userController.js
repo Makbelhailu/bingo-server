@@ -9,19 +9,54 @@ const getUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ status: false, message: "Invalid User" });
     }
+    if (user.limit <= 0) {
+      return res
+        .status(401)
+        .json({ status: false, message: "You have finished your Credit" });
+    } else if (!user.status) {
+      return res
+        .status(401)
+        .json({ status: false, message: "Unauthorized User" });
+    }
+
     if (!user.cartela) {
       const cartela = await Cartela.findOne({ isDefault: true });
       user.cartela = cartela;
     }
 
-    res.cookie("user", JSON.stringify(user), {
-      httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
-    });
+    res.status(200).json({ status: true, user, message: "Login Successfully" });
+  } catch (e) {
+    res.status(400).json({ status: false, message: e.message });
+  }
+};
+
+const getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id).populate("cartela");
+
+    if (!user) {
+      return res.status(404).json({ status: false, message: "Invalid User" });
+    }
+
+    if (user.limit <= 0) {
+      return res
+        .status(401)
+        .json({ status: false, message: "You have finished your Credit" });
+    } else if (!user.status) {
+      return res
+        .status(401)
+        .json({ status: false, message: "Unauthorized User" });
+    }
+
+    if (!user.cartela) {
+      const cartela = await Cartela.findOne({ isDefault: true });
+      user.cartela = cartela;
+    }
 
     res
       .status(200)
-      .json({ status: true, data: user, message: "Login Successfully" });
+      .json({ status: true, user, message: "User Fetched Successfully" });
   } catch (e) {
     res.status(400).json({ status: false, message: e.message });
   }
@@ -93,4 +128,5 @@ module.exports = {
   updateCut,
   updateStatus,
   logout,
+  getUserById,
 };
