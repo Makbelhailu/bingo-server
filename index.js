@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const cors = require("cors");
+//const cors = require("cors");
 const cookieParse = require("cookie-parser");
 require("dotenv").config();
 
@@ -10,7 +10,7 @@ const gameRouter = require("./routes/game");
 
 const app = express();
 
-app.use(cors({ origin: ["*"] }));
+//app.use(cors({ origin: ["*"] }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParse());
