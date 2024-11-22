@@ -73,6 +73,10 @@ const addGame = async (req, res) => {
 
     if (user.limit < totalWin) {
       return res
+        .status(400)
+        .json({ status: false, message: "Insufficient Credit" });
+    } else if (user.limit === 0) {
+      return res
         .status(401)
         .json({ status: false, message: "You have finished your Credit" });
     } else if (!user.status) {
