@@ -9,11 +9,12 @@ const getUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ status: false, message: "Invalid User" });
     }
-    if (user.limit <= 0) {
-      return res
-        .status(401)
-        .json({ status: false, message: "You have finished your Credit" });
-    } else if (!user.status) {
+    // if (user.limit <= 0) {
+    //   return res
+    //     .status(401)
+    //     .json({ status: false, message: "You have finished your Credit" });
+    // } else
+    if (!user.status) {
       return res
         .status(401)
         .json({ status: false, message: "Unauthorized User" });
@@ -39,11 +40,12 @@ const getUserById = async (req, res) => {
       return res.status(404).json({ status: false, message: "Invalid User" });
     }
 
-    if (user.limit <= 0) {
-      return res
-        .status(401)
-        .json({ status: false, message: "You have finished your Credit" });
-    } else if (!user.status) {
+    // if (user.limit <= 0) {
+    //   return res
+    //     .status(401)
+    //     .json({ status: false, message: "You have finished your Credit" });
+    // } else
+    if (!user.status) {
       return res
         .status(401)
         .json({ status: false, message: "Unauthorized User" });
