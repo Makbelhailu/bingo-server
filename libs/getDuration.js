@@ -1,7 +1,8 @@
-function getStartAndEndOfDay(date = new Date()) {
-  const start = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  const end = new Date(start);
-  end.setDate(end.getDate() + 1);
+function getStartAndEndOfDay() {
+  const start = new Date();
+  const end = new Date();
+  start.setHours(0, 0, 0, 0);
+  end.setHours(24, 0, 0, 0);
   return { start, end };
 }
 
