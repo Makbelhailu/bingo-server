@@ -65,7 +65,6 @@ const getUserById = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-  res.clearCookie("user");
   res.status(200).json({ status: true, message: "Logged out Successfully" });
 };
 

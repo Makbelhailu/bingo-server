@@ -100,7 +100,7 @@ const addGame = async (req, res) => {
         .status(403)
         .json({ status: false, message: "Can't add Game data" });
 
-    user.limit -= houseWin * user.cut;
+    user.limit -= houseWin;
     user.houseCut = cut;
     await user.save();
 

@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const cookieParse = require("cookie-parser");
+// const compression = require("compression");
 require("dotenv").config();
 
 const userRouter = require("./routes/user");
@@ -10,10 +10,9 @@ const gameRouter = require("./routes/game");
 
 const app = express();
 
+// app.use(compression());
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParse());
 
 app.use("/user", userRouter);
 app.use("/cartela", cartelaRouter);
