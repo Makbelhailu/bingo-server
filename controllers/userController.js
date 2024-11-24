@@ -9,15 +9,15 @@ const getUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ status: false, message: "Invalid User" });
     }
-    // if (user.limit <= 0) {
-    //   return res
-    //     .status(401)
-    //     .json({ status: false, message: "You have finished your Credit" });
-    // } else
-    if (!user.status) {
+    if (user.limit <= 0) {
       return res
         .status(401)
-        .json({ status: false, message: "Unauthorized User" });
+        .json({ status: false, message: "You have finished your Credit" });
+    } else if (!user.status) {
+      return res.status(401).json({
+        status: false,
+        message: "You have been blocked by admins, contact them",
+      });
     }
 
     if (!user.cartela) {
@@ -46,9 +46,10 @@ const getUserById = async (req, res) => {
     //     .json({ status: false, message: "You have finished your Credit" });
     // } else
     if (!user.status) {
-      return res
-        .status(401)
-        .json({ status: false, message: "Unauthorized User" });
+      return res.status(401).json({
+        status: false,
+        message: "You have been blocked by admins, contact them",
+      });
     }
 
     if (!user.cartela) {
@@ -76,7 +77,7 @@ const addUser = async (req, res) => {
     if (!user) {
       return res
         .status(404)
-        .json({ status: false, message: "Cant Create User" });
+        .json({ status: false, message: "Can't Create User" });
     }
 
     res.status(200).json({ status: true, data: user });

@@ -10,21 +10,55 @@ const addCartela = async (req, res) => {
     if (!user)
       return res.status(404).json({ status: false, message: "Invalid user" });
 
-    const cartelaData = await Cartela.create({ numbers: cartela });
+    if (user.cartela) {
+      const cartelaData = await Cartela.findById(user.cartela);
+      if (!cartelaData || cartelaData.isDefault) {
+        const newCartela = await Cartela.create({ numbers: cartela });
 
-    if (!cartelaData)
-      return res
-        .status(403)
-        .json({ status: false, message: "Cant Add Cartelas" });
+        if (!newCartela)
+          return res
+            .status(403)
+            .json({ status: false, message: "Cant Add Cartelas" });
 
-    user.cartela = cartelaData._id;
-    await user.save();
+        user.cartela = newCartela._id;
+        await user.save();
 
-    res.status(201).json({
-      status: true,
-      cartela: cartelaData,
-      message: "Cartela added Successfully",
-    });
+        return res.status(201).json({
+          status: true,
+          cartela: newCartela,
+          message: "Cartela added Successfully",
+        });
+      }
+
+      const modCartela = new Map([
+        ...cartelaData.numbers,
+        ...Object.entries(cartela),
+      ]);
+      cartelaData.numbers = modCartela;
+      await cartelaData.save();
+
+      return res.status(201).json({
+        status: true,
+        cartela: cartelaData,
+        message: "Cartela added Successfully",
+      });
+    } else {
+      const cartelaData = await Cartela.create({ numbers: cartela });
+
+      if (!cartelaData)
+        return res
+          .status(403)
+          .json({ status: false, message: "Cant Add Cartelas" });
+
+      user.cartela = cartelaData._id;
+      await user.save();
+
+      return res.status(201).json({
+        status: true,
+        cartela: cartelaData,
+        message: "Cartela added Successfully",
+      });
+    }
   } catch (e) {
     res.status(400).json({
       status: true,

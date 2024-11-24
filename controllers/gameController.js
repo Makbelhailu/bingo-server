@@ -112,7 +112,30 @@ const addGame = async (req, res) => {
   }
 };
 
+const getAllWin = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const allWin = await Game.find({ userId }).select("houseWin");
+    if (!allWin) {
+      return res
+        .status(403)
+        .json({ status: false, message: "Can't add Game data" });
+    }
+    console.log(allWin[0]);
+    const totalHouseWin = allWin.reduce((a, b) => a + b.houseWin, 0);
+
+    res.status(200).json({
+      status: true,
+      totalHouseWin,
+      message: "Here is your total Earn",
+    });
+  } catch (e) {
+    res.status(400).json({ status: false, message: e.message });
+  }
+};
+
 module.exports = {
   getTodayGame,
   addGame,
+  getAllWin,
 };
