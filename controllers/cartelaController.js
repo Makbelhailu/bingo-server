@@ -56,6 +56,7 @@ const addCartela = async (req, res) => {
       return res.status(201).json({
         status: true,
         cartela: cartelaData,
+        user,
         message: "Cartela added Successfully",
       });
     }
