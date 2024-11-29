@@ -14,11 +14,7 @@ const getTodayGame = async (req, res) => {
         .status(404)
         .json({ status: false, message: "Invalid User Id" });
 
-    // if (user.limit <= 0) {
-    //   return res
-    //     .status(401)
-    //     .json({ status: false, message: "You have finished your Credit" });
-    // } else
+    
     if (!user.status) {
       return res
         .status(401)

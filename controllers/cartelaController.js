@@ -30,10 +30,10 @@ const addCartela = async (req, res) => {
         });
       }
 
-      const modCartela = new Map([
-        ...cartelaData.numbers,
-        ...Object.entries(cartela),
-      ]);
+      const modCartela = new Map(cartelaData.numbers);
+      Object.entries(cartela).forEach(([key, value]) => {
+        modCartela.set(key, value);
+      });
       cartelaData.numbers = modCartela;
       await cartelaData.save();
 
@@ -94,6 +94,39 @@ const addDefaultCartela = async (req, res) => {
   }
 };
 
+const applyDefaultCartela = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const cartelaData = await Cartela.findOne({ isDefault: true });
+
+    if (!cartelaData)
+      return res
+        .status(403)
+        .json({ status: false, message: "Cant Add Cartelas" });
+
+    const userData = await User.findByIdAndUpdate(id, { cartela: cartelaData._id });
+
+    if(!userData) {
+      return res
+        .status(403)
+        .json({ status: false, message: "Cant Add Cartelas" });
+    }
+
+    res.status(201).json({
+      status: true,
+      cartela: cartelaData,
+      user: userData,
+      message: "Cartela Apply Successfully",
+    });
+  } catch (e) {
+    res.status(400).json({
+      status: true,
+      message: e.message,
+    });
+  }
+};
+
 const getCartela = async (req, res) => {
   try {
     const { id } = req.params;
@@ -124,4 +157,5 @@ module.exports = {
   addCartela,
   getCartela,
   addDefaultCartela,
+  applyDefaultCartela
 };
