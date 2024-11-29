@@ -104,14 +104,21 @@ const applyDefaultCartela = async (req, res) => {
     if (!cartelaData)
       return res
         .status(403)
-        .json({ status: false, message: "Cant Add Cartelas" });
+        .json({ status: false, message: "Cant Apply Cartelas" });
 
-    const userData = await User.findByIdAndUpdate(id, { cartela: cartelaData._id });
+    const newCartela = await Cartela.create({ numbers: cartelaData.numbers });
 
-    if(!userData) {
+    if (!newCartela)
       return res
         .status(403)
-        .json({ status: false, message: "Cant Add Cartelas" });
+        .json({ status: false, message: "Cant Create Default Cartelas" }); 
+
+    const userData = await User.findByIdAndUpdate(id, { cartela: newCartela._id });
+
+    if (!userData) {
+      return res
+        .status(403)
+        .json({ status: false, message: "Invalid User" });
     }
 
     res.status(201).json({
