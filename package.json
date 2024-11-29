@@ -2,9 +2,25 @@
   "name": "bingo-server",
   "version": "1.0.0",
   "main": "index.js",
+  "bin": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "pkg:linux": "pkg . --targets node16-linux-x64 --output build/bingo",
+    "pkg:windows": "pkg . --targets node16-windows-x64 --output build/bingo.exe"
+  },
+  "pkg": {
+    "assets": [
+      "public/**/*",
+      ".env"
+    ],
+    "scripts": [
+      "index.js",
+      "routes/**/*.js",
+      "controllers/**/*.js",
+      "models/**/*.js",
+      "libs/**/*.js"
+    ]
   },
   "keywords": [],
   "author": "",
