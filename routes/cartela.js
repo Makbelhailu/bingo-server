@@ -9,6 +9,6 @@ const {
 router.get("/:id", getCartela);
 router.post("/add", addCartela);
 router.post("/addDefault", addDefaultCartela);
-router.post("/applyDefault", applyDefaultCartela);
+router.post("/applyDefault/:id", applyDefaultCartela);
 
 module.exports = router;
