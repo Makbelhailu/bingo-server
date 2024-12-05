@@ -2,17 +2,19 @@
   "name": "bingo-server",
   "version": "1.0.0",
   "main": "index.js",
-  "bin": "index.js",
+  "bin": "build.js",
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
+    "pkg": "pkg . --targets node16-linux-x64,node16-windows-x64 --out-path build",
     "pkg:linux": "pkg . --targets node16-linux-x64 --output build/bingo",
     "pkg:windows": "pkg . --targets node16-windows-x64 --output build/bingo.exe"
   },
   "pkg": {
     "assets": [
-      "public/**/*",
-      ".env"
+      "dist/**/*",
+      ".env",
+      "dist/logo.ico"
     ],
     "scripts": [
       "index.js",
@@ -20,14 +22,14 @@
       "controllers/**/*.js",
       "models/**/*.js",
       "libs/**/*.js"
-    ]
+    ],
+    "icon": "./dist/logo.ico"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
