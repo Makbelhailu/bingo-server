@@ -35,8 +35,7 @@ const getTodayGame = async (req, res) => {
       userId,
       createdAt: { $gte: start, $lt: end },
     })
-      .limit(20)
-      .sort({ createdAt: -1 });
+    .sort({ createdAt: -1 });
 
     if (games.length > 0) {
       totalEarn = games.reduce((a, b) => {
