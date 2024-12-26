@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      unique: false,
     },
     username: {
       type: String,
@@ -18,7 +19,7 @@ const userSchema = new mongoose.Schema(
     cut: Number,
     houseCut: {
       type: Number,
-      default: 0.2,
+      default: 0.3,
     },
     limit: {
       type: Number,
@@ -37,5 +38,11 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+userSchema.index({ name: 1 }, { unique: false });
 const User = mongoose.model("User", userSchema);
+
+// User.collection.dropIndex("name_1", (err, result) => {
+//   if (err) console.error("Error dropping index:", err);
+//   else console.log("Index dropped successfully:", result);
+// });
 module.exports = User;
