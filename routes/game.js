@@ -1,11 +1,11 @@
 const router = require("express").Router();
 const {
-  getTodayGame,
+  getGames,
   addGame,
   getAllWin,
 } = require("../controllers/gameController");
 
-router.get("/today/:id", getTodayGame);
+router.get("/today/:id", getGames);
 router.get("/totalHouseWin/:userId", getAllWin);
 router.post("/", addGame);
 

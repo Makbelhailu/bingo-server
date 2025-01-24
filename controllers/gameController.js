@@ -2,10 +2,13 @@ const Game = require("../models/gameModel");
 const User = require("../models/userModel");
 const getStartAndEndOfDay = require("../libs/getDuration");
 
-const getTodayGame = async (req, res) => {
+const getGames = async (req, res) => {
   try {
     const { id } = req.params;
-    const { start, end } = getStartAndEndOfDay();
+    const { date } = req.query;
+    const { start, end } = getStartAndEndOfDay(
+      date || new Date().toISOString()
+    );
     let totalEarn = 0;
     const user = await User.findById(id);
 
@@ -34,8 +37,7 @@ const getTodayGame = async (req, res) => {
     const games = await Game.find({
       userId,
       createdAt: { $gte: start, $lt: end },
-    })
-    .sort({ createdAt: -1 });
+    }).sort({ createdAt: -1 });
 
     if (games.length > 0) {
       totalEarn = games.reduce((a, b) => {
@@ -134,7 +136,7 @@ const getAllWin = async (req, res) => {
 };
 
 module.exports = {
-  getTodayGame,
+  getGames,
   addGame,
   getAllWin,
 };
