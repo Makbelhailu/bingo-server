@@ -6,9 +6,9 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "pkg": "pkg . --targets node16-linux-x64,node16-windows-x64 --out-path build",
-    "pkg:linux": "pkg . --targets node16-linux-x64 --output build/bingo",
-    "pkg:windows": "pkg . --targets node16-windows-x64 --output build/bingo.exe"
+    "pkg": "pkg . --targets node16-linux-x64,node16-windows-x64 --out-path build --no-bytecode --icon ./dist/logo.ico",
+    "pkg:linux": "pkg . --targets node16-linux-x64 --output build/LuckyBingo --no-bytecode",
+    "pkg:windows": "pkg . --targets node16-windows-x64 --output build/LuckyBingo.exe --no-bytecode --icon ./dist/logo.ico"
   },
   "pkg": {
     "assets": [
